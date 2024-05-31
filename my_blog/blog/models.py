@@ -16,7 +16,7 @@ class Post(models.Model):
     title = models.CharField(max_length=64)
     slug = models.SlugField()
     body = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default='admin')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     published = models.DateTimeField(default=timezone.now)
     tags = TaggableManager()
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
