@@ -15,4 +15,14 @@ class UserProfileForm(UserChangeForm):
         fields = ('first_name', 'last_name', 'image', 'username', 'email',)
 
     def save(self, commit=True):
-        image = self.cleaned_data['image']
+        user = super(UserProfileForm, self).save(commit=False)
+        profile = user.profile
+
+        if 'image' in self.cleaned_data:
+            profile.image = self.cleaned_data['image']
+
+        if commit:
+            user.save()
+            profile.save()
+
+        return user
