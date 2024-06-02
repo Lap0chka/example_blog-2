@@ -66,6 +66,8 @@ DATABASES = {
         'NAME': 'blog_second',
         'USER': 'danya',
         'PASSWORD': '23474Lfyz',
+        # 'HOST': 'db',
+        # 'PORT': '5432',
     }
 }
 
@@ -120,11 +122,13 @@ EMAIL_USE_TLS = True
 
 # Celery
 
-CELERY_BROKER_URL = 'redis://redis:6379'
 
-if DEBUG:
-    CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+# if DEBUG:
+#     CELERY_BROKER_URL = 'redis://localhost:6379/0'
+#     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Caches
 

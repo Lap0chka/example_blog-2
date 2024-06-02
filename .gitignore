@@ -1,0 +1,29 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+
+# Django
+*.log
+*.pot
+*.pyc
+*.mo
+*.egg-info/
+*.eggs/
+*.coveragerc
+coverage_html_report/
+.coverage
+db.sqlite3
+*.pyo
+*.pyd
+
+
+# Environments
+venv_blog/
+venv_blog
+
+
+

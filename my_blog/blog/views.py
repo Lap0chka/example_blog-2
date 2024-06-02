@@ -10,13 +10,6 @@ from .tasks import send_email_celery
 def index(request):
     """Rendering first page"""
     posts = Post.objects.filter(status=Post.Status.PUBLISHED)
-    from django.contrib.auth.models import User
-    try:
-        user_to_delete = User.objects.get(username='admin2')
-        user_to_delete.delete()
-        print("Пользователь успешно удален")
-    except User.DoesNotExist:
-        print("Пользователь с именем 'admin2' не существует")
     return render(request, 'base.html', {'posts': posts})
 
 

@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: blog_second
+      POSTGRES_USER: danya
+      POSTGRES_PASSWORD: 23474Lfyz
+
+  redis:
+    image: redis
+    restart: always
+
+  webapp:
+    restart: always
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    command: [ "sh", "-c", "python /usr/example_blogs2/manage.py migrate && python /usr/example_blogs2/manage.py runserver 0.0.0.0:8000" ]
+    depends_on:
+      - db
+    environment:
+      - DATABASE_NAME=blog_second
+      - DATABASE_USER=danya
+      - DATABASE_PASSWORD=23474Lfyz
+      - DATABASE_HOST=db
+
+  worker:
+    restart: always
+    build:
+      context: .
+    command: [ 'celery', '--workdir=.', '-A', 'my_blog', 'worker' ]

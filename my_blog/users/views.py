@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, UpdateView
 from .tasks import send_email_verification
+from .forms import UserProfileForm
 from .models import Profile
 from django.conf import settings
 from django.core.cache import cache
@@ -53,12 +54,11 @@ def confirm_email(reqeust, token):
         return redirect(to=reverse_lazy('user:login'))
 
 
-@login_required
-def profile(request):
-    return render(request, 'users/profile.html')
-
-
 class UserProfileView(UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
+    success_url = reverse_lazy('user:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
