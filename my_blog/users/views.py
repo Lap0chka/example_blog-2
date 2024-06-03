@@ -1,11 +1,9 @@
 import uuid
-
 from django.contrib.auth.decorators import login_required
-
 from .forms import RegisterUserForm
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, reverse
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, UpdateView
 from .tasks import send_email_verification
@@ -20,13 +18,16 @@ class LoginMyView(LoginView):
     template_name = "users/login.html"
 
     def get_success_url(self):
-        return reverse_lazy('user:profile')
+        user_id = self.request.user.id
+        return reverse('user:profile', args=[user_id])
 
 
 class RegisterUser(CreateView):
     template_name = 'users/register.html'
     form_class = RegisterUserForm
-    success_url = reverse_lazy('user:login')
+
+    def get_success_url(self):
+        return reverse('user:login')
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -58,7 +59,10 @@ class UserProfileView(UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
-    success_url = reverse_lazy('user:profile')
+
+    def get_success_url(self):
+        user_id = self.request.user.id
+        return reverse('user:profile', args=[user_id])
 
     def get_object(self, queryset=None):
         return self.request.user
