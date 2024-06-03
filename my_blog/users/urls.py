@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', views.RegisterUser.as_view(), name='register'),
     path('profile/<int:id>', views.UserProfileView.as_view(), name='profile'),
+    path('send_email/', views.send_user_email, name='send_email'),
     path('confirm_email/<str:token>', views.confirm_email, name='confirm_email'),
 ]

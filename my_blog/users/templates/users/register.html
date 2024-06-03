@@ -15,6 +15,17 @@
     <div class="col-lg-7 tm-contact-left">
         <form method="POST" action="" class="mb-5 ml-auto mr-0 tm-contact-form">
             {%csrf_token%}
+            {%if form.errors%}
+                <div class="form-group row mb-4">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                         style="margin-top: 50px;">
+                        {{form.errors}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            {%endif%}
             <div class="form-group row mb-4">
                 <label for="name" class="col-sm-3 col-form-label text-right tm-color-primary">Username</label>
                 <div class="col-sm-9">

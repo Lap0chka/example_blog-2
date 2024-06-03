@@ -25,5 +25,7 @@ db.sqlite3
 venv_blog/
 venv_blog
 
+media/*
+
 
 
