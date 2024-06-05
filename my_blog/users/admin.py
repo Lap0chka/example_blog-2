@@ -1,7 +1,25 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 from .models import Profile
 
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'is_email_verification']
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profiles'
+
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline,)
+    list_display = ['username', 'email', 'is_staff', 'is_email_verification']
+
+    @staticmethod
+    def is_email_verification(obj):
+        return obj.profile.is_email_verification
+
+
+admin.site.register(Profile)
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
