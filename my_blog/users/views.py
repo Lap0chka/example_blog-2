@@ -1,5 +1,4 @@
 import uuid
-from django.contrib.auth.decorators import login_required
 from .forms import RegisterUserForm
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -7,12 +6,12 @@ from django.shortcuts import get_object_or_404, redirect, reverse, render
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, UpdateView
 from .tasks import send_email_verification
-from .forms import UserProfileForm
+from .forms import UserProfileForm, AddPostForm
 from .models import Profile
 from django.conf import settings
 from django.core.cache import cache
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from blog.models import Post
 
 
 class LoginMyView(LoginView):
@@ -95,3 +94,20 @@ def send_user_email(request):
         return redirect(reverse_lazy('user:profile', args=[user.id]))
     messages.success(request, message)
     return redirect(reverse_lazy('blog:index'))
+
+
+class AddPostView(CreateView):
+    template_name = 'users/add_post.html'
+    form_class = AddPostForm
+    model = Post
+
+    def get_success_url(self):
+        messages.success(self.request, "We got your post. Soon we'll check it and add\nThank you")
+        return reverse('user:add_post')
+
+    def form_valid(self, form):
+        user = self.request.user
+        post = form.save(commit=False)
+        post.author = user
+        response = super().form_valid(form)
+        return response

@@ -51,6 +51,12 @@
                         Profile
                     </a>
                 </li>
+                 <li class="tm-nav-item">
+                    <a href="{% url 'user:add_post' %}" class="tm-nav-link">
+                        <i class="far fa-comments"></i>
+                        Add post
+                    </a>
+                </li>
                 <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
                     {% csrf_token %}
                 </form>

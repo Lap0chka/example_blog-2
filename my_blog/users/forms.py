@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
+from blog.models import Post
+from django.forms import ModelForm
 
 
 class RegisterUserForm(UserCreationForm):
@@ -30,3 +32,9 @@ class UserProfileForm(UserChangeForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("This email is already used")
         return cleaned_data
+
+
+class AddPostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'tags', 'body', 'image')

@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%block title%} Add Post {%endblock%}
+{%block content%}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="row tm-row tm-mb-120">
+    <div class="col-12">
+        <h2 class="tm-color-primary tm-post-title tm-mb-60">Add your post</h2>
+    </div>
+    <div class="col-lg-7 tm-contact-left">
+        <form method="POST" action="" class="mb-5 ml-auto mr-0 tm-contact-form" enctype="multipart/form-data">
+            {%if form.errors%}
+            <div class="form-group row mb-4">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                     style="margin-top: 50px;">
+                    {{form.errors}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            {%endif%}
+            {%csrf_token%}
+            <div class="form-group row mb-4">
+                <label for="title" class="col-sm-3 col-form-label text-right tm-color-primary">Title</label>
+                <div class="col-sm-9">
+                    {{form.title}}
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <label for="email" class="col-sm-3 col-form-label text-right tm-color-primary">Body</label>
+                <div class="col-sm-9">
+                    {{form.body}}
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <label for="image" class="col-sm-3 col-form-label text-right tm-color-primary">Image</label>
+                <div class="col-sm-9">
+                    {{form.image}}
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <label for="email" class="col-sm-3 col-form-label text-right tm-color-primary">Tags</label>
+                <div class="col-sm-9">
+                    {{form.tags}}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <div class="col-12">
+                    <button type="submit" class="tm-btn tm-btn-primary tm-btn-small">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock%}
